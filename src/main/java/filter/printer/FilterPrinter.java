@@ -1,17 +1,19 @@
 package filter.printer;
 
+import filter.reader.ReaderInThread;
 import filter.reader.WordReader;
 
-import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class FilterPrinter {
-    private static final int MIN_NUM = 1;
 
     public void printResults() {
         WordReader wordReader = new WordReader();
         wordReader.countWords();
-        List<String> badWords = wordReader.getSwearWordsFromFile();
-        if (badWords.size() <= MIN_NUM) System.out.println("Swear Words Not Found");
-        else System.out.println(wordReader.getSwearWordsFromFile());
+        wordReader.findMostRepeatedWords();
+        ExecutorService service = Executors.newSingleThreadExecutor();
+        service.submit(new ReaderInThread());
+        service.shutdown();
     }
 }

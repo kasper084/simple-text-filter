@@ -5,24 +5,25 @@ import filter.writer.WordWriter;
 
 import java.io.*;
 import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.*;
 
 public class WordReader {
-    private static final String DATA = "C:\\Users\\kasper084\\Desktop\\data.txt";
-    private static final String VOCABULARY = "C:\\Users\\kasper084\\Desktop\\vocabulary.txt";
-    private static final String CHARACTERS = ",|\\(|\\)|\\'|!";
+    private static final String DATA = "data.txt";
+    private static final String VOCABULARY = "vocabulary.txt";
+    private static final String CHARACTERS = ",|!|\\(|\\)|\\.";
     private static final String REPLACEMENT = " ";
     private static final String REGEX = "\\s+";
 
     private List<String> shortWords = new ArrayList<>();
+    private Map<String, Integer> mapOfWords = new HashMap<>();
 
     private WordWriter writer = new WordWriter();
 
     private String readData(String path) {
+        File file = new File(Objects.requireNonNull(Objects.requireNonNull(WordReader.class.getClassLoader().getResource(path)).getFile()));
         String data = null;
         try {
-            data = Files.readString(Paths.get(path));
+            data = Files.readString(file.toPath());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -32,9 +33,7 @@ public class WordReader {
     private List<String> getAllWords(String path) {
         List<String> words;
         String data = readData(path);
-        if (data.contains(CHARACTERS)) {
-            data = data.replaceAll(CHARACTERS, REPLACEMENT);
-        }
+        data = data.replaceAll(CHARACTERS, REPLACEMENT);
         words = Arrays.asList(data.split(REGEX));
         return words;
     }
@@ -45,11 +44,12 @@ public class WordReader {
         int smallWord = 0;
         List<String> words = getAllWords(DATA);
         for (String word : words) {
+            mapOfWords.put(word, num);
             num++;
             if (isWordBad(word)) {
                 swears++;
-                writer.write(word);
-            } else if (isWordBad(word) || word.length() < 3) {
+                writer.write(Encoder.encode(word));
+            } else if (word.length() < 3) {
                 smallWord++;
                 shortWords.add(word);
             }
@@ -59,11 +59,14 @@ public class WordReader {
         System.out.println("All short words: " + "\n" + shortWords);
     }
 
-    public List<String> getSwearWordsFromFile() {
-        return getAllWords(WordWriter.getPATH());
+    private boolean isWordBad(String word) {
+        String some = getAllWords(VOCABULARY).stream()
+                .filter(s -> Encoder.decode(s).equals(word)).findAny().orElse(null);
+        return word.equals(some);
     }
 
-    private boolean isWordBad(String word) {
-        return getSwearWordsFromFile().contains(Encoder.encode(word));
+    public void findMostRepeatedWords() {
+        System.out.println("Most used words by descending order:");
+        System.out.println(mapOfWords.keySet());
     }
 }

@@ -3,12 +3,11 @@ package filter.writer;
 import java.io.*;
 
 public class WordWriter {
-    private static final String PATH = "C:\\Users\\kasper084\\Desktop\\swear.txt";
+    private static final String PATH = "src/file/swear.txt";
 
     public void write(String word) {
-        try (FileOutputStream zero = new FileOutputStream(PATH)) {
-            byte[] wordBytes = word.getBytes();
-            zero.write(wordBytes);
+        try (FileWriter fileWriter = new FileWriter(PATH)) {
+            fileWriter.write(word);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
