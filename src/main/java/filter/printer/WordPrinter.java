@@ -6,7 +6,7 @@ import filter.reader.WordReader;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class FilterPrinter {
+public class WordPrinter {
 
     public void printResults() {
         WordReader wordReader = new WordReader();

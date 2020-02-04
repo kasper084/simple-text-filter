@@ -1,11 +1,11 @@
 package filter;
 
-import filter.printer.FilterPrinter;
+import filter.printer.WordPrinter;
 
 public class App
 {
     public static void main( String[] args ) {
-        FilterPrinter printer = new FilterPrinter();
+        WordPrinter printer = new WordPrinter();
         printer.printResults();
     }
 }
