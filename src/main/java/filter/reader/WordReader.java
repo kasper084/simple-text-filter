@@ -6,7 +6,7 @@ import filter.writer.WordWriter;
 import java.io.*;
 import java.nio.file.Files;
 import java.util.*;
-import java.util.stream.Collectors;
+
 
 public class WordReader {
     private static final String DATA = "data.txt";
@@ -16,7 +16,7 @@ public class WordReader {
     private static final String REGEX = "\\s+";
     private static final int NUM = 20;
 
-    private List<String> shortWords = new ArrayList<>();
+    private Set<String> shortWords = new LinkedHashSet<>();
     private Map<String, Integer> mapOfWords = new HashMap<>();
 
     private WordWriter writer = new WordWriter();
@@ -56,9 +56,9 @@ public class WordReader {
                 shortWords.add(word);
             }
         }
-        System.out.println("Total num of words: " + num);
-        System.out.println("Total without short and swear words: " + (num - (smallWord + swears)));
-        System.out.println("All short words: " + "\n" + shortWords);
+        System.out.printf("Total num of words: %d%n", num);
+        System.out.printf("Total without short and swear words: %d%n", num - (smallWord + swears));
+        System.out.printf("All short words: \n%s%n", shortWords);
     }
 
     private boolean isWordBad(String word) {
@@ -71,7 +71,7 @@ public class WordReader {
         System.out.println("Most used words by descending order:");
         List<String> list = new ArrayList<>(mapOfWords.keySet());
         for (int some = 0; some < NUM; some++) {
-            System.out.print(list.get(some) + "/");
+            System.out.print(list.get(some) + " / ");
         }
     }
 }

@@ -26,7 +26,7 @@ public class ReaderInThread implements Runnable {
             e.printStackTrace();
         }
 
-        if (words.size() <= MIN_NUM) System.out.println("No Swear Words Found");
+        if (words.size() <= MIN_NUM) System.out.println("\nNo Swear Words Found");
         else System.out.println(words);
     }
 }
