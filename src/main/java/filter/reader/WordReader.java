@@ -6,6 +6,7 @@ import filter.writer.WordWriter;
 import java.io.*;
 import java.nio.file.Files;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class WordReader {
     private static final String DATA = "data.txt";
@@ -13,6 +14,7 @@ public class WordReader {
     private static final String CHARACTERS = ",|!|\\(|\\)|\\.";
     private static final String REPLACEMENT = " ";
     private static final String REGEX = "\\s+";
+    private static final int NUM = 20;
 
     private List<String> shortWords = new ArrayList<>();
     private Map<String, Integer> mapOfWords = new HashMap<>();
@@ -20,7 +22,7 @@ public class WordReader {
     private WordWriter writer = new WordWriter();
 
     private String readData(String path) {
-        File file = new File(Objects.requireNonNull(Objects.requireNonNull(WordReader.class.getClassLoader().getResource(path)).getFile()));
+        File file = new File(Objects.requireNonNull(WordReader.class.getClassLoader().getResource(path).getFile()));
         String data = null;
         try {
             data = Files.readString(file.toPath());
@@ -67,6 +69,9 @@ public class WordReader {
 
     public void findMostRepeatedWords() {
         System.out.println("Most used words by descending order:");
-        System.out.println(mapOfWords.keySet());
+        List<String> list = new ArrayList<>(mapOfWords.keySet());
+        for (int some = 0; some < NUM; some++) {
+            System.out.print(list.get(some) + "/");
+        }
     }
 }
