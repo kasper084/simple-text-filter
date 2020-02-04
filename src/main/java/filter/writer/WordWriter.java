@@ -15,4 +15,8 @@ public class WordWriter {
             e.printStackTrace();
         }
     }
+
+    public static String getPATH() {
+        return PATH;
+    }
 }

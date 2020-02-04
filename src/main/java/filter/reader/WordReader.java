@@ -8,13 +8,14 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 
-public class Reader {
+public class WordReader {
     private static final String DATA = "C:\\Users\\kasper084\\Desktop\\data.txt";
     private static final String VOCABULARY = "C:\\Users\\kasper084\\Desktop\\vocabulary.txt";
-    private static final String CHARACTERS_REGEX = ",|\\(|\\)|\\'|!";
+    private static final String CHARACTERS = ",|\\(|\\)|\\'|!";
     private static final String REPLACEMENT = " ";
     private static final String REGEX = "\\s+";
-    private static List<String> shortWords = new ArrayList<>();
+
+    private List<String> shortWords = new ArrayList<>();
 
     private WordWriter writer = new WordWriter();
 
@@ -31,8 +32,8 @@ public class Reader {
     private List<String> getAllWords(String path) {
         List<String> words;
         String data = readData(path);
-        if (data.contains(CHARACTERS_REGEX)) {
-            data = data.replaceAll(CHARACTERS_REGEX, REPLACEMENT);
+        if (data.contains(CHARACTERS)) {
+            data = data.replaceAll(CHARACTERS, REPLACEMENT);
         }
         words = Arrays.asList(data.split(REGEX));
         return words;
@@ -42,7 +43,8 @@ public class Reader {
         int num = 0;
         int swears = 0;
         int smallWord = 0;
-        for (String word : getAllWords(DATA)) {
+        List<String> words = getAllWords(DATA);
+        for (String word : words) {
             num++;
             if (isWordBad(word)) {
                 swears++;
@@ -54,13 +56,14 @@ public class Reader {
         }
         System.out.println("Total num of words: " + num);
         System.out.println("Total without short and swear words: " + (num - (smallWord + swears)));
+        System.out.println("All short words: " + "\n" + shortWords);
+    }
+
+    public List<String> getSwearWordsFromFile() {
+        return getAllWords(WordWriter.getPATH());
     }
 
     private boolean isWordBad(String word) {
-        List<String> badWordsList;
-        String data = readData(VOCABULARY);
-        data = data.replaceAll(CHARACTERS_REGEX, REPLACEMENT);
-        badWordsList = Arrays.asList(data.split(REGEX));
-        return badWordsList.contains(Encoder.encode(word));
+        return getSwearWordsFromFile().contains(Encoder.encode(word));
     }
 }

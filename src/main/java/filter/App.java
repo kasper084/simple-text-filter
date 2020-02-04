@@ -1,11 +1,11 @@
 package filter;
 
-import filter.reader.Reader;
+import filter.printer.FilterPrinter;
 
 public class App
 {
     public static void main( String[] args ) {
-        Reader reader = new Reader();
-        reader.countWords();
+        FilterPrinter printer = new FilterPrinter();
+        printer.printResults();
     }
 }
