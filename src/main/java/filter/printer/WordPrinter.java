@@ -12,6 +12,7 @@ public class WordPrinter {
         WordReader wordReader = new WordReader();
         wordReader.countWords();
         wordReader.findMostRepeatedWords();
+
         ExecutorService service = Executors.newSingleThreadExecutor();
         service.submit(new ReaderInThread());
         service.shutdown();

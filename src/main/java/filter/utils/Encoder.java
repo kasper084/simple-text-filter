@@ -9,6 +9,7 @@ public class Encoder {
     }
 
     public static String decode(String word) {
+
         byte[] bytes = Base64.getDecoder().decode(word);
         return new String(bytes);
     }
