@@ -1,13 +1,11 @@
 package filter;
 
-/**
- * Hello world!
- *
- */
-public class App 
+import filter.printer.WordPrinter;
+
+public class App
 {
-    public static void main( String[] args )
-    {
-        System.out.println( "Hello World!" );
+    public static void main( String[] args ) {
+        WordPrinter printer = new WordPrinter();
+        printer.printResults();
     }
 }
